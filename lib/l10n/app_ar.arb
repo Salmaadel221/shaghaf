@@ -1,0 +1,9 @@
+{
+  "@@locale": "ar",
+  "signIn": "تسجيل الدخول",
+  "emailAddress": "البريد الإلكتروني",
+  "password": "كلمة المرور",
+  "dontHaveAnAccount": "ليس لديك حساب؟",
+  "signUp": "إنشاء حساب",
+  "loginWithGoogle": "الدخول باستخدام جوجل"
+}

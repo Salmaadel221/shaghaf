@@ -1,0 +1,9 @@
+{
+  "@@locale": "en",
+  "signIn": "Sign In",
+  "emailAddress": "Email Address",
+  "password": "Password",
+  "dontHaveAnAccount": "Don't have an account?",
+  "signUp": "Sign up",
+  "loginWithGoogle": "Login with Google"
+}

@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "404377602470",
+    "project_id": "shaghaf-cb396",
+    "storage_bucket": "shaghaf-cb396.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:404377602470:android:369ccae3c39ac89abd2767",
+        "android_client_info": {
+          "package_name": "com.example.shagf"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "404377602470-o46r8f5t62u0pekdr6302etfcriof8hl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shagf",
+            "certificate_hash": "18bae91666d5afebb2f70f72d1b6dba105564698"
+          }
+        },
+        {
+          "client_id": "404377602470-c9l4dkn9i74c78se01n5sd22kmiogv2v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2MTW4qGpKoB2SCRxBpmDihE3TuzbYO1M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "404377602470-c9l4dkn9i74c78se01n5sd22kmiogv2v.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "404377602470-q1jte6h0oc9gsee3cej1374e6cc2lpdk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.shagf"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
