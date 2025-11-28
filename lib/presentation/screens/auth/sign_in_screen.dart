@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shagf/core/app_routes.dart';
 import 'package:shagf/data/services/auth_service.dart';
+import 'package:shagf/l10n/app_localizations.dart';
 import 'package:shagf/presentation/widgets/custom_button.dart';
 import 'package:shagf/presentation/widgets/custom_text_field.dart';
 import 'package:shagf/presentation/widgets/remember_me_switch.dart';
@@ -27,62 +28,51 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Future<void> _signIn() async {
+    final l10n = AppLocalizations.of(context)!;
     if (_emailController.text.trim().isEmpty || _passwordController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Please enter both email and password."),
+        SnackBar(
+          content: Text(l10n.errorEmptyFields),
           backgroundColor: Colors.orange,
         ),
       );
-      return; 
+      return;
     }
 
     if (mounted) setState(() => _isLoading = true);
 
     try {
       final authService = Provider.of<AuthService>(context, listen: false);
-
       await authService.signIn(
         email: _emailController.text.trim(),
         password: _passwordController.text.trim(),
       );
-
       if (mounted) {
         Navigator.pushReplacementNamed(context, AppRoutes.home);
       }
-
-    } on FirebaseAuthException catch (e) { 
+    } on FirebaseAuthException catch (e) {
       if (!mounted) return;
-
       String errorMessage;
       switch (e.code) {
         case 'invalid-credential':
-          errorMessage = "Incorrect email or password. Please try again.";
+          errorMessage = l10n.errorInvalidCredential;
           break;
         case 'invalid-email':
-          errorMessage = "The email address is badly formatted.";
+          errorMessage = l10n.errorInvalidEmail;
           break;
         case 'user-disabled':
-          errorMessage = "This user account has been disabled.";
+          errorMessage = l10n.errorUserDisabled;
           break;
         default:
-          errorMessage = "An unexpected error occurred. Please try again.";
-          print("Firebase Auth Error: ${e.code}"); 
+          errorMessage = l10n.errorUnexpected;
       }
-
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(errorMessage),
-          backgroundColor: Colors.red,
-        ),
+        SnackBar(content: Text(errorMessage), backgroundColor: Colors.red),
       );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("An error occurred. Please check your connection and try again."),
-          backgroundColor: Colors.red,
-        ),
+        SnackBar(content: Text(l10n.errorNetwork), backgroundColor: Colors.red),
       );
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -94,7 +84,6 @@ class _SignInScreenState extends State<SignInScreen> {
     try {
       final authService = Provider.of<AuthService>(context, listen: false);
       final User? user = await authService.signInWithGoogle();
-
       if (mounted && user != null) {
         Navigator.pushReplacementNamed(context, AppRoutes.home);
       }
@@ -112,9 +101,9 @@ class _SignInScreenState extends State<SignInScreen> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
@@ -127,17 +116,17 @@ class _SignInScreenState extends State<SignInScreen> {
               const SizedBox(height: 40),
               Image.asset('assets/logo_shagf.png', height: 150),
               const SizedBox(height: 40),
-              Text('Sign in', style: textTheme.titleLarge),
+              Text(l10n.signIn, style: textTheme.titleLarge),
               const SizedBox(height: 24),
               CustomTextField(
                 controller: _emailController,
-                hintText: 'abc@email.com',
+                hintText: l10n.email,
                 prefixIcon: Icons.email_outlined,
               ),
               const SizedBox(height: 16),
               CustomTextField(
                 controller: _passwordController,
-                hintText: 'Your password',
+                hintText: l10n.password,
                 prefixIcon: Icons.lock_outline,
                 isPassword: true,
               ),
@@ -145,11 +134,11 @@ class _SignInScreenState extends State<SignInScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const RememberMeSwitch(),
+                  RememberMeSwitch(label: l10n.rememberMe),
                   GestureDetector(
                     onTap: () => Navigator.pushNamed(context, AppRoutes.resetPassword),
                     child: Text(
-                      'Forgot Password?',
+                      l10n.forgotPassword,
                       style: TextStyle(
                         color: Theme.of(context).primaryColor,
                         fontWeight: FontWeight.bold,
@@ -168,12 +157,12 @@ class _SignInScreenState extends State<SignInScreen> {
                         width: 20,
                         child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2.5),
                       )
-                    : const Text('SIGN IN'),
+                    : Text(l10n.signIn.toUpperCase()),
               ),
               const SizedBox(height: 24),
-              _buildOrSeparator(),
+              _buildOrSeparator(context),
               const SizedBox(height: 24),
-              _buildGoogleLoginButton(),
+              _buildGoogleLoginButton(context),
               const SizedBox(height: 32),
               _buildSignUpLink(context),
               const SizedBox(height: 24),
@@ -184,24 +173,26 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  Widget _buildOrSeparator() {
+  Widget _buildOrSeparator(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Row(
       children: [
         const Expanded(child: Divider()),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Text('OR', style: TextStyle(color: Theme.of(context).hintColor)),
+          child: Text(l10n.or, style: TextStyle(color: Theme.of(context).hintColor)),
         ),
         const Expanded(child: Divider()),
       ],
     );
   }
 
-  Widget _buildGoogleLoginButton() {
+  Widget _buildGoogleLoginButton(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return OutlinedButton.icon(
       onPressed: _isLoading ? null : _signInWithGoogle,
       icon: Image.asset('assets/google-tile.png', height: 20),
-      label: const Text('Login with Google'),
+      label: Text(l10n.loginWithGoogle),
       style: OutlinedButton.styleFrom(
         side: BorderSide(color: Theme.of(context).hintColor),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
@@ -212,14 +203,15 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   Widget _buildSignUpLink(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Don't have an account? ", style: Theme.of(context).textTheme.bodyMedium),
+        Text(l10n.dontHaveAnAccount, style: Theme.of(context).textTheme.bodyMedium),
         GestureDetector(
           onTap: () => Navigator.pushNamed(context, AppRoutes.signUp),
           child: Text(
-            'Sign up',
+            l10n.signUp,
             style: TextStyle(
               color: Theme.of(context).primaryColor,
               fontWeight: FontWeight.bold,

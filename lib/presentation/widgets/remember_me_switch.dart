@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:shagf/core/app_theme.dart';
 
 class RememberMeSwitch extends StatefulWidget {
-  const RememberMeSwitch({Key? key}) : super(key: key);
+  final String label;
+  const RememberMeSwitch({Key? key , required this.label,}) : super(key: key);
 
   @override
   State<RememberMeSwitch> createState() => _RememberMeSwitchState();
 }
 
 class _RememberMeSwitchState extends State<RememberMeSwitch> {
-  bool _rememberMe = false;
+bool _value = false;
 
   @override
   Widget build(BuildContext context) {
@@ -19,18 +19,16 @@ class _RememberMeSwitchState extends State<RememberMeSwitch> {
         Row(
           children: [
             Switch.adaptive(
-              value: _rememberMe, 
+              value: _value,
               onChanged: (newValue) {
                 setState(() {
-                  _rememberMe = newValue;
+                  _value = newValue;
                 });
               },
-              activeColor: AppColors.primaryColor, 
-              activeTrackColor: AppColors.primaryColor.withOpacity(0.5),
-              inactiveThumbColor: AppColors.hintColor,
-              inactiveTrackColor: AppColors.secondaryColor,
+              activeColor: Theme.of(context).primaryColor,
             ),
-            const Text('Remember Me'),
+            const SizedBox(width: 4),
+            Text(widget.label), 
           ],
         ),
 

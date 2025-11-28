@@ -1,9 +1,58 @@
 {
   "@@locale": "ar",
+  "shaghaf": "شغف",
   "signIn": "تسجيل الدخول",
-  "emailAddress": "البريد الإلكتروني",
-  "password": "كلمة المرور",
-  "dontHaveAnAccount": "ليس لديك حساب؟",
+  "signOut": "تسجيل الخروج",
+"toggleTheme": "تغيير الثيم",
   "signUp": "إنشاء حساب",
-  "loginWithGoogle": "الدخول باستخدام جوجل"
+  "confirm": "تأكيد",
+  "verify": "تحقق",
+  "sendOTP": "إرسال الرمز",
+  "email": "البريد الإلكتروني",
+  "password": "كلمة المرور",
+  "yourPassword": "كلمة المرور",
+  "confirmPassword": "تأكيد كلمة المرور",
+  "fullName": "الاسم الكامل",
+  "phoneNumber": "رقم الهاتف",
+  "rememberMe": "تذكرني",
+  "forgotPassword": "هل نسيت كلمة المرور؟",
+  "loginWithGoogle": "الدخول باستخدام جوجل",
+  "dontHaveAnAccount": "ليس لديك حساب؟",
+  "alreadyHaveAnAccount": "لديك حساب بالفعل؟",
+  "or": "أو",
+  "resetPassword": "إعادة تعيين كلمة المرور",
+  "newPassword": "كلمة مرور جديدة",
+  "pleaseEnterNewPassword": "الرجاء إدخال كلمة مرور جديدة",
+  "enterVerificationCode": "أدخل رمز التحقق",
+  "weSentCodeTo": "لقد أرسلنا رمزاً مكوناً من 6 أرقام إلى\n{phoneNumber}",
+  "@weSentCodeTo": {
+      "placeholders": {
+          "phoneNumber": {
+              "type": "String"
+          }
+      }
+  },
+  "resendCodeIn": "إعادة إرسال الرمز خلال 0:{seconds}",
+  "@resendCodeIn": {
+      "placeholders": {
+          "seconds": {
+              "type": "String"
+          }
+      }
+  },
+  "resendCode": "إعادة إرسال الرمز",
+  "verifyAndProceed": "تحقق واستمر",
+  "home": "الرئيسية",
+  "toggleLanguage": "تغيير اللغة",
+  "errorInvalidCredential": "البريد الإلكتروني أو كلمة المرور غير صحيحة. الرجاء المحاولة مرة أخرى.",
+  "errorInvalidEmail": "صيغة البريد الإلكتروني غير صالحة.",
+  "errorUserDisabled": "تم تعطيل حساب المستخدم هذا.",
+  "errorUnexpected": "حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى لاحقاً.",
+  "errorNetwork": "حدث خطأ. الرجاء التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.",
+  "errorEmptyFields": "الرجاء ملء جميع الحقول المطلوبة.",
+  "errorPasswordsDoNotMatch": "كلمتا المرور غير متطابقتين.",
+  "errorInvalidPhoneNumber": "الرجاء إدخال رقم هاتف صحيح.",
+  "errorInvalidOTP": "رمز التحقق غير صالح أو انتهت صلاحيته.",
+  "successOTPSent": "تم إرسال الرمز بنجاح!",
+  "successPasswordUpdate": "تم تحديث كلمة المرور بنجاح! الرجاء تسجيل الدخول مرة أخرى."
 }

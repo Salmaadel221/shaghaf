@@ -4,10 +4,10 @@ import 'package:shagf/presentation/screens/auth/reset_password_screen.dart';
 import 'package:shagf/presentation/screens/auth/sign_in_screen.dart';
 import 'package:shagf/presentation/screens/auth/sign_up_screen.dart';
 import 'package:shagf/presentation/screens/auth/verification_screen.dart';
-import 'package:shagf/presentation/screens/home_screen.dart';
+// import 'package:shagf/presentation/screens/home_screen.dart';
 
 class AppRoutes {
-  static const String signIn = '/';
+  static const String signIn = '/signIn';
   static const String signUp = '/signUp';
   static const String verification = '/verification';
   static const String resetPassword = '/resetPassword';
@@ -18,7 +18,7 @@ class AppRoutes {
     signUp: (context) => const SignUpScreen(),
     resetPassword: (context) => const ResetPasswordScreen(),
     newPassword: (context) => const NewPasswordScreen(),
-    home: (context) => const HomeScreen(),
+    // home: (context) => const HomeScreen(),
   };
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {

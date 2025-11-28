@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shagf/core/app_routes.dart';
 import 'package:shagf/data/services/auth_service.dart';
+import 'package:shagf/l10n/app_localizations.dart';
 
 class VerificationScreen extends StatefulWidget {
   final String phoneNumber;
@@ -18,29 +19,24 @@ class _VerificationScreenState extends State<VerificationScreen> {
   bool _isSendingOTP = true;
   bool _isVerifyingOTP = false;
   String? _verificationId;
-
-  // --- التعديل الأول: اجعل الـ Timer قابلاً للـ null ---
-  Timer? _timer; 
+  Timer? _timer;
   int _start = 60;
   bool _canResend = false;
 
   @override
   void initState() {
     super.initState();
-    _sendOTP();
-    // لا داعي لاستدعاء _startTimer هنا، لأن _sendOTP تقوم بذلك بالفعل
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _sendOTP();
+    });
   }
 
   void _startTimer() {
-    // إذا كان هناك مؤقت قديم، قم بإلغائه أولاً
     _timer?.cancel();
-
     setState(() {
       _canResend = false;
       _start = 60;
     });
-
-    // قم بإنشاء مؤقت جديد
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_start == 0) {
         if (mounted) {
@@ -60,15 +56,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
   }
 
   void _sendOTP() {
+    final l10n = AppLocalizations.of(context)!;
     if (mounted) {
       setState(() {
         _isSendingOTP = true;
       });
     }
-    
-    // ابدأ العداد مباشرة
-    _startTimer(); 
-
+    _startTimer();
     final authService = Provider.of<AuthService>(context, listen: false);
     authService.sendOTP(
       phone: widget.phoneNumber,
@@ -79,7 +73,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
             _verificationId = verificationId;
           });
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("OTP sent successfully!"), backgroundColor: Colors.green),
+            SnackBar(content: Text(l10n.successOTPSent), backgroundColor: Colors.green),
           );
         }
       },
@@ -87,7 +81,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
         if (mounted) {
           setState(() {
             _isSendingOTP = false;
-            _timer?.cancel(); // ألغِ المؤقت عند حدوث خطأ
+            _timer?.cancel();
           });
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(error), backgroundColor: Colors.red),
@@ -99,34 +93,27 @@ class _VerificationScreenState extends State<VerificationScreen> {
   }
 
   void _verifyOTP() async {
-    // ... (باقي هذه الدالة كما هي بدون تغيير)
+    final l10n = AppLocalizations.of(context)!;
     if (_verificationId == null || _otpController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Please enter the OTP"), backgroundColor: Colors.orange),
+        SnackBar(content: Text(l10n.errorEmptyFields), backgroundColor: Colors.orange),
       );
       return;
     }
-
     setState(() => _isVerifyingOTP = true);
     final authService = Provider.of<AuthService>(context, listen: false);
-
     try {
       await authService.verifyOTP(
         verificationId: _verificationId!,
         smsCode: _otpController.text.trim(),
       );
-
       if (mounted) {
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          AppRoutes.newPassword,
-          (route) => false,
-        );
+        Navigator.pushNamedAndRemoveUntil(context, AppRoutes.newPassword, (route) => false);
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Invalid or expired OTP"), backgroundColor: Colors.red),
+          SnackBar(content: Text(l10n.errorInvalidOTP), backgroundColor: Colors.red),
         );
       }
     } finally {
@@ -138,17 +125,16 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
   @override
   void dispose() {
-    // --- التعديل الثاني: استخدم `?.` للتأكد من أن المؤقت ليس null ---
-    _timer?.cancel(); 
+    _timer?.cancel();
     _otpController.dispose();
     super.dispose();
   }
 
-  // ... (دالة build تبقى كما هي بدون تغيير)
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: const Text("Enter Verification Code")),
+      appBar: AppBar(title: Text(l10n.enterVerificationCode)),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
@@ -156,7 +142,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              "We've sent a 6-digit code to\n${widget.phoneNumber}",
+              l10n.weSentCodeTo(widget.phoneNumber),
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 18, color: Colors.grey.shade700, height: 1.5),
             ),
@@ -180,10 +166,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
             _canResend
                 ? TextButton(
                     onPressed: _sendOTP,
-                    child: const Text("Resend Code"),
+                    child: Text(l10n.resendCode),
                   )
                 : Text(
-                    "Resend code in 0:${_start.toString().padLeft(2, '0')}",
+                    l10n.resendCodeIn(_start.toString().padLeft(2, '0')),
                     textAlign: TextAlign.center,
                     style: const TextStyle(color: Colors.grey),
                   ),
@@ -200,7 +186,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       width: 24,
                       child: CircularProgressIndicator(color: Colors.white, strokeWidth: 3),
                     )
-                  : const Text("Verify & Proceed"),
+                  : Text(l10n.verifyAndProceed),
             ),
           ],
         ),

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:shagf/core/app_routes.dart';
-// قم باستيراد شاشة التحقق الخاصة بك
-// import 'package:shagf/screens/verification_screen.dart'; 
+import 'package:shagf/l10n/app_localizations.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({Key? key}) : super(key: key);
@@ -18,23 +17,22 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   String? _fullPhoneNumber;
 
   void _navigateToVerification() {
-  if (_fullPhoneNumber == null || _fullPhoneNumber!.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("Please enter a valid phone number"),
-        backgroundColor: Colors.orange,
-      ),
+    final l10n = AppLocalizations.of(context)!;
+    if (_fullPhoneNumber == null || _fullPhoneNumber!.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.errorInvalidPhoneNumber),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
+    Navigator.pushNamed(
+      context,
+      AppRoutes.verification,
+      arguments: _fullPhoneNumber!,
     );
-    return;
   }
-
-  // استخدم pushNamed الآن ومرر رقم الهاتف في arguments
-  Navigator.pushNamed(
-    context,
-    AppRoutes.verification, // استخدم الثابت من AppRoutes
-    arguments: _fullPhoneNumber!, // تمرير رقم الهاتف هنا
-  );
-}
 
   @override
   void dispose() {
@@ -44,8 +42,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: const Text("Reset Password")),
+      appBar: AppBar(title: Text(l10n.resetPassword)),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Form(
@@ -63,7 +62,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 ),
                 ignoreBlank: false,
                 autoValidateMode: AutovalidateMode.disabled,
-                selectorTextStyle: const TextStyle(color: Colors.black),
+                selectorTextStyle: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
                 initialValue: _number,
                 textFieldController: _phoneController,
                 formatInput: true,
@@ -79,8 +78,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
-                onPressed: _navigateToVerification, // استدعاء دالة الانتقال
-                child: const Text("Send OTP"),
+                onPressed: _navigateToVerification,
+                child: Text(l10n.sendOTP),
               ),
             ],
           ),

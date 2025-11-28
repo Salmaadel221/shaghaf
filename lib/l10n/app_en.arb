@@ -1,9 +1,58 @@
 {
   "@@locale": "en",
+  "shaghaf": "Shaghaf",
   "signIn": "Sign In",
-  "emailAddress": "Email Address",
+  "signUp": "Sign Up",
+  "signOut": "Sign Out",
+  "toggleTheme": "Toggle Theme",
+  "confirm": "Confirm",
+  "verify": "Verify",
+  "sendOTP": "Send OTP",
+  "email": "Email",
   "password": "Password",
+  "yourPassword": "Your password",
+  "confirmPassword": "Confirm password",
+  "fullName": "Full Name",
+  "phoneNumber": "Phone Number",
+  "rememberMe": "Remember Me",
+  "forgotPassword": "Forgot Password?",
+  "loginWithGoogle": "Login with Google",
   "dontHaveAnAccount": "Don't have an account?",
-  "signUp": "Sign up",
-  "loginWithGoogle": "Login with Google"
+  "alreadyHaveAnAccount": "Already have an account?",
+  "or": "OR",
+  "resetPassword": "Reset Password",
+  "newPassword": "New Password",
+  "pleaseEnterNewPassword": "Please Enter A New Password",
+  "enterVerificationCode": "Enter Verification Code",
+  "weSentCodeTo": "We've sent a 6-digit code to\n{phoneNumber}",
+  "@weSentCodeTo": {
+      "placeholders": {
+          "phoneNumber": {
+              "type": "String"
+          }
+      }
+  },
+  "resendCodeIn": "Resend code in 0:{seconds}",
+  "@resendCodeIn": {
+      "placeholders": {
+          "seconds": {
+              "type": "String"
+          }
+      }
+  },
+  "resendCode": "Resend Code",
+  "verifyAndProceed": "Verify & Proceed",
+  "home": "Home",
+  "toggleLanguage": "Toggle Language",
+  "errorInvalidCredential": "Incorrect email or password. Please try again.",
+  "errorInvalidEmail": "The email address is badly formatted.",
+  "errorUserDisabled": "This user account has been disabled.",
+  "errorUnexpected": "An unexpected error occurred. Please try again later.",
+  "errorNetwork": "An error occurred. Please check your connection and try again.",
+  "errorEmptyFields": "Please fill in all required fields.",
+  "errorPasswordsDoNotMatch": "Passwords do not match.",
+  "errorInvalidPhoneNumber": "Please enter a valid phone number.",
+  "errorInvalidOTP": "Invalid or expired OTP.",
+  "successOTPSent": "OTP sent successfully!",
+  "successPasswordUpdate": "Password updated successfully! Please sign in again."
 }
