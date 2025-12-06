@@ -1,8 +1,6 @@
-// ignore: unused_import
 import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
 
-// ignore_for_file: type=lint
 
 /// The translations for Arabic (`ar`).
 class AppLocalizationsAr extends AppLocalizations {
@@ -21,7 +19,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get signOut => 'تسجيل الخروج';
 
   @override
-  String get toggleTheme => 'تغيير الثيم';
+  String get toggleTheme => 'تغيير المظهر';
 
   @override
   String get confirm => 'تأكيد';
@@ -30,7 +28,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get verify => 'تحقق';
 
   @override
-  String get sendOTP => 'إرسال الرمز';
+  String get sendOTP => 'إرسال الكود';
 
   @override
   String get email => 'البريد الإلكتروني';
@@ -39,7 +37,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get password => 'كلمة المرور';
 
   @override
-  String get yourPassword => 'كلمة المرور';
+  String get yourPassword => 'كلمة المرور الخاصة بك';
 
   @override
   String get confirmPassword => 'تأكيد كلمة المرور';
@@ -57,7 +55,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get forgotPassword => 'هل نسيت كلمة المرور؟';
 
   @override
-  String get loginWithGoogle => 'الدخول باستخدام جوجل';
+  String get loginWithGoogle => 'تسجيل الدخول عبر جوجل';
 
   @override
   String get dontHaveAnAccount => 'ليس لديك حساب؟';
@@ -75,23 +73,23 @@ class AppLocalizationsAr extends AppLocalizations {
   String get newPassword => 'كلمة مرور جديدة';
 
   @override
-  String get pleaseEnterNewPassword => 'الرجاء إدخال كلمة مرور جديدة';
+  String get pleaseEnterNewPassword => 'يرجى إدخال كلمة مرور جديدة';
 
   @override
   String get enterVerificationCode => 'أدخل رمز التحقق';
 
   @override
   String weSentCodeTo(String phoneNumber) {
-    return 'لقد أرسلنا رمزاً مكوناً من 6 أرقام إلى\n$phoneNumber';
+    return 'لقد أرسلنا رمزًا مكوّنًا من 6 أرقام إلى\n$phoneNumber';
   }
 
   @override
   String resendCodeIn(String seconds) {
-    return 'إعادة إرسال الرمز خلال 0:$seconds';
+    return 'إعادة إرسال الكود خلال 0:$seconds';
   }
 
   @override
-  String get resendCode => 'إعادة إرسال الرمز';
+  String get resendCode => 'إعادة إرسال الكود';
 
   @override
   String get verifyAndProceed => 'تحقق واستمر';
@@ -104,38 +102,53 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get errorInvalidCredential =>
-      'البريد الإلكتروني أو كلمة المرور غير صحيحة. الرجاء المحاولة مرة أخرى.';
+      'البريد الإلكتروني أو كلمة المرور غير صحيحة.';
 
   @override
-  String get errorInvalidEmail => 'صيغة البريد الإلكتروني غير صالحة.';
+  String get errorInvalidEmail => 'صيغة البريد الإلكتروني غير صحيحة.';
 
   @override
-  String get errorUserDisabled => 'تم تعطيل حساب المستخدم هذا.';
+  String get errorUserDisabled => 'هذا الحساب تم تعطيله.';
 
   @override
-  String get errorUnexpected =>
-      'حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى لاحقاً.';
+  String get errorUnexpected => 'حدث خطأ غير متوقع. يرجى المحاولة لاحقاً.';
 
   @override
-  String get errorNetwork =>
-      'حدث خطأ. الرجاء التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.';
+  String get errorNetwork => 'حدث خطأ. تحقق من اتصال الإنترنت وحاول مرة أخرى.';
 
   @override
-  String get errorEmptyFields => 'الرجاء ملء جميع الحقول المطلوبة.';
+  String get errorEmptyFields => 'يرجى ملء جميع الحقول المطلوبة.';
 
   @override
   String get errorPasswordsDoNotMatch => 'كلمتا المرور غير متطابقتين.';
 
   @override
-  String get errorInvalidPhoneNumber => 'الرجاء إدخال رقم هاتف صحيح.';
+  String get errorInvalidPhoneNumber => 'يرجى إدخال رقم هاتف صحيح.';
 
   @override
-  String get errorInvalidOTP => 'رمز التحقق غير صالح أو انتهت صلاحيته.';
+  String get errorInvalidOTP => 'رمز التحقق غير صحيح أو منتهي.';
 
   @override
-  String get successOTPSent => 'تم إرسال الرمز بنجاح!';
+  String get successOTPSent => 'تم إرسال رمز التحقق بنجاح!';
 
   @override
   String get successPasswordUpdate =>
-      'تم تحديث كلمة المرور بنجاح! الرجاء تسجيل الدخول مرة أخرى.';
+      'تم تحديث كلمة المرور بنجاح! يرجى تسجيل الدخول مجددًا.';
+
+  @override
+  String get passwordResetEmailSent =>
+      'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك.';
+
+  @override
+  String get resetPasswordEmailIntro => 'سيتم إرسال رابط إعادة التعيين إلى:';
+
+  @override
+  String get resetPasswordEnterEmail =>
+      'أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور';
+
+  @override
+  String get sendResetLink => 'إرسال الرابط';
+
+  @override
+  String get backToSignIn => 'العودة لتسجيل الدخول';
 }

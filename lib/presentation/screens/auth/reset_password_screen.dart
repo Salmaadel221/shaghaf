@@ -13,11 +13,19 @@ class ResetPasswordScreen extends StatefulWidget {
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _phoneController = TextEditingController();
+
   PhoneNumber _number = PhoneNumber(isoCode: 'EG');
   String? _fullPhoneNumber;
 
-  void _navigateToVerification() {
+  @override
+  void dispose() {
+    _phoneController.dispose();
+    super.dispose();
+  }
+
+  void _goToVerification() {
     final l10n = AppLocalizations.of(context)!;
+
     if (_fullPhoneNumber == null || _fullPhoneNumber!.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -27,6 +35,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       );
       return;
     }
+
     Navigator.pushNamed(
       context,
       AppRoutes.verification,
@@ -35,16 +44,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   }
 
   @override
-  void dispose() {
-    _phoneController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.resetPassword)),
+      appBar: AppBar(
+        title: Text(l10n.resetPassword),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Form(
@@ -60,27 +66,24 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
                   useBottomSheetSafeArea: true,
                 ),
-                ignoreBlank: false,
                 autoValidateMode: AutovalidateMode.disabled,
-                selectorTextStyle: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
                 initialValue: _number,
                 textFieldController: _phoneController,
-                formatInput: true,
-                keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
+                keyboardType: TextInputType.phone,
                 inputBorder: const OutlineInputBorder(),
-                onSaved: (PhoneNumber number) {
-                  _fullPhoneNumber = number.phoneNumber;
-                },
               ),
               const SizedBox(height: 32),
+
               ElevatedButton(
+                onPressed: _goToVerification,
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
-                onPressed: _navigateToVerification,
-                child: Text(l10n.sendOTP),
-              ),
+                child: Text(
+                  l10n.sendOTP,
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              )
             ],
           ),
         ),

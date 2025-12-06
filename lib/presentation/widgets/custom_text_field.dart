@@ -33,16 +33,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
       controller: widget.controller,
       obscureText: _isObscured,
       decoration: InputDecoration(
-        // --- تعديلات التصميم ---
         filled: true,
-        fillColor: const Color(0xFFF8F4D7), // اللون الأصفر الفاتح من التصميم
+        fillColor: const Color(0xFFF8F4D7), 
         hintText: widget.hintText,
         prefixIcon: Icon(widget.prefixIcon, color: Colors.black54),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide.none, // إزالة الحدود الخارجية
+          borderSide: BorderSide.none, 
         ),
-        // --- نهاية تعديلات التصميم ---
         suffixIcon: widget.isPassword
             ? IconButton(
                 icon: Icon(

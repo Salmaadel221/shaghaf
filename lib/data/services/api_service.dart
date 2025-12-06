@@ -1,13 +1,10 @@
 import 'package:shagf/data/models/booking_model.dart';
 
 class ApiService {
-  // خدمة وهمية لمحاكاة استدعاءات API
   
   Future<List<BookingModel>> fetchUserBookings(String userId) async {
-    // محاكاة تأخير الشبكة
     await Future.delayed(const Duration(seconds: 1));
 
-    // بيانات وهمية
     return [
       BookingModel(
         id: '1',

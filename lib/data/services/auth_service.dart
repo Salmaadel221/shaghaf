@@ -5,12 +5,8 @@ class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  /// Stream of auth changes (login/logout)
-  Stream<User?> get user => _firebaseAuth.authStateChanges();
-
-  /// Current signed-in user (nullable)
+  Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
   User? get currentUser => _firebaseAuth.currentUser;
-
   /// ------------------------ OTP ------------------------
   Future<void> sendOTP({
     required String phone,
@@ -32,7 +28,6 @@ class AuthService {
       codeAutoRetrievalTimeout: (String verificationId) {},
     );
   }
-
   Future<UserCredential> verifyOTP({
     required String verificationId,
     required String smsCode,
@@ -43,17 +38,22 @@ class AuthService {
     );
     return await _firebaseAuth.signInWithCredential(credential);
   }
+   // --- Email & Password Methods ---
 
-  /// ------------------------ Email ------------------------
   Future<User?> signIn({
     required String email,
     required String password,
   }) async {
-    final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-    return userCredential.user;
+    try {
+      final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return userCredential.user;
+    } on FirebaseAuthException catch (e) {
+      print('AuthService Error in signIn: ${e.code}');
+      rethrow;
+    }
   }
 
   Future<User?> signUp({
@@ -61,56 +61,81 @@ class AuthService {
     required String password,
     required String fullName,
   }) async {
-    final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-
-    if (userCredential.user != null) {
-      // Update display name after signup
-      await userCredential.user!.updateDisplayName(fullName);
-      await userCredential.user!.reload();
-      return _firebaseAuth.currentUser; // Always return latest user
-    }
-    return null;
-  }
-
-  /// ------------------------ Google ------------------------
-  Future<User?> signInWithGoogle() async {
-    // Ensure clean sign-in
-    await _googleSignIn.signOut();
-    final googleUser = await _googleSignIn.signIn();
-    if (googleUser == null) return null;
-
-    final googleAuth = await googleUser.authentication;
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-
-    final userCredential = await _firebaseAuth.signInWithCredential(credential);
-    return userCredential.user;
-  }
-
-  /// ------------------------ Password ------------------------
-  Future<void> updatePassword({required String newPassword}) async {
-    final user = _firebaseAuth.currentUser;
-    if (user != null) {
-      await user.updatePassword(newPassword);
-      await user.reload();
-    } else {
-      throw FirebaseAuthException(
-        code: "no-current-user",
-        message: "No user is currently signed in.",
+    try {
+      final userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
       );
+
+      final user = userCredential.user;
+      if (user != null) {
+        await user.updateDisplayName(fullName);
+        return user;
+      }
+      return null;
+    } on FirebaseAuthException catch (e) {
+      print('AuthService Error in signUp: ${e.code}');
+      rethrow;
     }
   }
 
-  /// ------------------------ Sign Out ------------------------
+  // --- Google Sign-In Method ---
+
+  Future<User?> signInWithGoogle() async {
+    try {
+
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      
+      if (googleUser == null) {
+        print('Google sign in cancelled by user.');
+        return null;
+      }
+
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final OAuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final UserCredential userCredential = await _firebaseAuth.signInWithCredential(credential);
+      return userCredential.user;
+    } on FirebaseAuthException catch (e) {
+      print('AuthService Error in signInWithGoogle: ${e.code}');
+      rethrow;
+    } catch (e) {
+      print('An unexpected error occurred in signInWithGoogle: $e');
+      rethrow;
+    }
+  }
+
+  // --- Password Update Method ---
+
+  Future<void> updatePassword({required String newPassword}) async {
+    try {
+      final user = _firebaseAuth.currentUser;
+      if (user != null) {
+        await user.updatePassword(newPassword);
+      } else {
+        throw FirebaseAuthException(
+          code: "no-current-user",
+          message: "No user is currently signed in to update the password.",
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      print('AuthService Error in updatePassword: ${e.code}');
+      rethrow;
+    }
+  }
+
+  // --- Sign Out Method ---
+
   Future<void> signOut() async {
-    // Sign out from Firebase & Google
-    await _firebaseAuth.signOut();
-    await _googleSignIn.signOut();
-    // ⚡ AuthWrapper listens to authStateChanges → Home/Login will update automatically
+    try {
+      await _googleSignIn.signOut();
+      await _firebaseAuth.signOut();
+    } catch (e) {
+      print('Error during sign out: $e');
+      await _firebaseAuth.signOut();
+    }
   }
 }

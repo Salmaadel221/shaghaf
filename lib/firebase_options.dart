@@ -41,52 +41,56 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBmvsMOmOemvGMJ36PgFaAmgmrkjj5E_1c',
-    appId: '1:404377602470:web:102f7c3754a25cd9bd2767',
-    messagingSenderId: '404377602470',
-    projectId: 'shaghaf-cb396',
-    authDomain: 'shaghaf-cb396.firebaseapp.com',
-    storageBucket: 'shaghaf-cb396.firebasestorage.app',
-    measurementId: 'G-1NKG8WWNLE',
+    apiKey: 'AIzaSyAdF4u-jmydb6hHsqahwaAWKaAFj6TpM1U',
+    appId: '1:19410684722:web:55bc090269b76f9f04a52b',
+    messagingSenderId: '19410684722',
+    projectId: 'shagaf-fe682',
+    authDomain: 'shagaf-fe682.firebaseapp.com',
+    databaseURL: 'https://shagaf-fe682-default-rtdb.firebaseio.com',
+    storageBucket: 'shagaf-fe682.firebasestorage.app',
+    measurementId: 'G-49G8XWZ4Z7',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyB2MTW4qGpKoB2SCRxBpmDihE3TuzbYO1M',
-    appId: '1:404377602470:android:369ccae3c39ac89abd2767',
-    messagingSenderId: '404377602470',
-    projectId: 'shaghaf-cb396',
-    storageBucket: 'shaghaf-cb396.firebasestorage.app',
+    apiKey: 'AIzaSyBmZjXmZqqZWM7WgdaTpi4V2ne159kZjc8',
+    appId: '1:19410684722:android:a0f6e6edcf89183404a52b',
+    messagingSenderId: '19410684722',
+    projectId: 'shagaf-fe682',
+    databaseURL: 'https://shagaf-fe682-default-rtdb.firebaseio.com',
+    storageBucket: 'shagaf-fe682.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBMIYExRcW6dQqrhXKf4Vhn9nfZQpJbCWc',
-    appId: '1:404377602470:ios:c975dcb1d0595b3dbd2767',
-    messagingSenderId: '404377602470',
-    projectId: 'shaghaf-cb396',
-    storageBucket: 'shaghaf-cb396.firebasestorage.app',
-    androidClientId: '404377602470-o46r8f5t62u0pekdr6302etfcriof8hl.apps.googleusercontent.com',
-    iosClientId: '404377602470-q1jte6h0oc9gsee3cej1374e6cc2lpdk.apps.googleusercontent.com',
+    apiKey: 'AIzaSyAqqcNsFEQw6bG6dwEGMCCyP918ScqdHU0',
+    appId: '1:19410684722:ios:1ab612686f71257204a52b',
+    messagingSenderId: '19410684722',
+    projectId: 'shagaf-fe682',
+    databaseURL: 'https://shagaf-fe682-default-rtdb.firebaseio.com',
+    storageBucket: 'shagaf-fe682.firebasestorage.app',
+    iosClientId: '19410684722-3kok1g6kls02tn4od2rvelnhjnvf2ncc.apps.googleusercontent.com',
     iosBundleId: 'com.example.shagf',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBMIYExRcW6dQqrhXKf4Vhn9nfZQpJbCWc',
-    appId: '1:404377602470:ios:c975dcb1d0595b3dbd2767',
-    messagingSenderId: '404377602470',
-    projectId: 'shaghaf-cb396',
-    storageBucket: 'shaghaf-cb396.firebasestorage.app',
-    androidClientId: '404377602470-o46r8f5t62u0pekdr6302etfcriof8hl.apps.googleusercontent.com',
-    iosClientId: '404377602470-q1jte6h0oc9gsee3cej1374e6cc2lpdk.apps.googleusercontent.com',
+    apiKey: 'AIzaSyAqqcNsFEQw6bG6dwEGMCCyP918ScqdHU0',
+    appId: '1:19410684722:ios:1ab612686f71257204a52b',
+    messagingSenderId: '19410684722',
+    projectId: 'shagaf-fe682',
+    databaseURL: 'https://shagaf-fe682-default-rtdb.firebaseio.com',
+    storageBucket: 'shagaf-fe682.firebasestorage.app',
+    iosClientId: '19410684722-3kok1g6kls02tn4od2rvelnhjnvf2ncc.apps.googleusercontent.com',
     iosBundleId: 'com.example.shagf',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyBmvsMOmOemvGMJ36PgFaAmgmrkjj5E_1c',
-    appId: '1:404377602470:web:2d92c547679c3186bd2767',
-    messagingSenderId: '404377602470',
-    projectId: 'shaghaf-cb396',
-    authDomain: 'shaghaf-cb396.firebaseapp.com',
-    storageBucket: 'shaghaf-cb396.firebasestorage.app',
-    measurementId: 'G-WHMKXN7H3F',
+    apiKey: 'AIzaSyAdF4u-jmydb6hHsqahwaAWKaAFj6TpM1U',
+    appId: '1:19410684722:web:55bc090269b76f9f04a52b',
+    messagingSenderId: '19410684722',
+    projectId: 'shagaf-fe682',
+    authDomain: 'shagaf-fe682.firebaseapp.com',
+    databaseURL: 'https://shagaf-fe682-default-rtdb.firebaseio.com',
+    storageBucket: 'shagaf-fe682.firebasestorage.app',
+    measurementId: 'G-49G8XWZ4Z7',
   );
+
 }

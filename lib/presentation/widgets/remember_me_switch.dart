@@ -32,15 +32,7 @@ bool _value = false;
           ],
         ),
 
-        // TextButton(
-        //   onPressed: () {
-        //     Navigator.pushNamed(context, AppRoutes.resetPassword);
-        //   },
-        //   child: const Text(
-        //     'Forgot Password?',
-        //     style: TextStyle(color: AppColors.primaryColor),
-        //   ),
-        // ),
+      
       ],
     );
   }

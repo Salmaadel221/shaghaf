@@ -343,6 +343,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Password updated successfully! Please sign in again.'**
   String get successPasswordUpdate;
+
+  /// Message shown when password reset email was sent successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Password reset email sent.'**
+  String get passwordResetEmailSent;
+
+  /// Intro text shown above email field when email was provided via arguments.
+  ///
+  /// In en, this message translates to:
+  /// **'A reset email will be sent to:'**
+  String get resetPasswordEmailIntro;
+
+  /// Instruction to enter email when no initial email provided.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email to reset password'**
+  String get resetPasswordEnterEmail;
+
+  /// Label for the button that sends the reset email.
+  ///
+  /// In en, this message translates to:
+  /// **'Send reset link'**
+  String get sendResetLink;
+
+  /// Label for the button to go back to sign in screen.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to Sign In'**
+  String get backToSignIn;
 }
 
 class _AppLocalizationsDelegate

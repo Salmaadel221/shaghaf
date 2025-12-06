@@ -45,48 +45,20 @@ class ShaghafApp extends StatelessWidget {
       locale: localeProvider.locale,
       localizationsDelegates: GenL10n.AppLocalizations.localizationsDelegates,
       supportedLocales: GenL10n.AppLocalizations.supportedLocales,
-      home: const AuthWrapper(), // ✅ This handles login/logout
+      home: const AuthWrapper(), 
       routes: AppRoutes.routes,
       onGenerateRoute: AppRoutes.onGenerateRoute,
     );
   }
 }
 
-// class AuthWrapper extends StatelessWidget {
-//   const AuthWrapper({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamBuilder<User?>(
-//       stream: FirebaseAuth.instance.authStateChanges(),
-//       builder: (context, snapshot) {
-//         if (snapshot.connectionState == ConnectionState.waiting) {
-//           return const Scaffold(
-//             body: Center(child: CircularProgressIndicator()),
-//           );
-//         }
-
-//         // If user is null → SignInScreen
-//         if (!snapshot.hasData || snapshot.data == null) {
-//           return const SignInScreen();
-//         }
-
-//         // User is logged in → HomeScreen, pass User as parameter
-//         return HomeScreen(user: snapshot.data!);
-//       },
-//     );
-//   }
-// }
-
 class AuthWrapper extends StatelessWidget {
   const AuthWrapper({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthService>(context, listen: false);
-
     return StreamBuilder<User?>(
-      stream: authService.user,
+      stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
@@ -94,13 +66,11 @@ class AuthWrapper extends StatelessWidget {
           );
         }
 
-        final user = snapshot.data;
-
-        if (user == null) {
+        if (!snapshot.hasData || snapshot.data == null) {
           return const SignInScreen();
         }
 
-        return HomeScreen(user: user);
+        return HomeScreen(user: snapshot.data!);
       },
     );
   }

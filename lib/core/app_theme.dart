@@ -27,8 +27,6 @@ class AppTheme {
       ),
     ),
     textTheme: const TextTheme(
-      // --- هذا هو المكان الصحيح للون النص المكتوب ---
-      // bodyLarge يتحكم في النص داخل TextField في Material 3
       bodyLarge: TextStyle(color: AppColors.textColor, fontSize: 16),
       bodyMedium: TextStyle(color: AppColors.textColor, fontSize: 14),
       titleLarge: TextStyle(

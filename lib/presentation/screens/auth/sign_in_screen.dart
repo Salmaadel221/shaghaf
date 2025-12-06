@@ -27,79 +27,126 @@ class _SignInScreenState extends State<SignInScreen> {
     super.dispose();
   }
 
-  Future<void> _signIn() async {
-    final l10n = AppLocalizations.of(context)!;
-    if (_emailController.text.trim().isEmpty || _passwordController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(l10n.errorEmptyFields),
-          backgroundColor: Colors.orange,
-        ),
-      );
-      return;
-    }
-
-    if (mounted) setState(() => _isLoading = true);
-
-    try {
-      final authService = Provider.of<AuthService>(context, listen: false);
-      await authService.signIn(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-      if (mounted) {
-        Navigator.pushReplacementNamed(context, AppRoutes.home);
-      }
-    } on FirebaseAuthException catch (e) {
-      if (!mounted) return;
-      String errorMessage;
-      switch (e.code) {
-        case 'invalid-credential':
-          errorMessage = l10n.errorInvalidCredential;
-          break;
-        case 'invalid-email':
-          errorMessage = l10n.errorInvalidEmail;
-          break;
-        case 'user-disabled':
-          errorMessage = l10n.errorUserDisabled;
-          break;
-        default:
-          errorMessage = l10n.errorUnexpected;
-      }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(errorMessage), backgroundColor: Colors.red),
-      );
-    } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.errorNetwork), backgroundColor: Colors.red),
-      );
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
-    }
+ Future<void> _signIn() async {
+  final l10n = AppLocalizations.of(context)!;
+  if (_emailController.text.trim().isEmpty || _passwordController.text.trim().isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(l10n.errorEmptyFields),
+        backgroundColor: Colors.orange,
+      ),
+    );
+    return;
   }
 
-  Future<void> _signInWithGoogle() async {
-    if (mounted) setState(() => _isLoading = true);
-    try {
-      final authService = Provider.of<AuthService>(context, listen: false);
-      final User? user = await authService.signInWithGoogle();
-      if (mounted && user != null) {
-        Navigator.pushReplacementNamed(context, AppRoutes.home);
-      }
-    } on FirebaseAuthException catch (e) {
+  if (mounted) setState(() => _isLoading = true);
+
+  try {
+    final authService = Provider.of<AuthService>(context, listen: false);
+    final user = await authService.signIn(
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+    );
+
+    // Debug
+    print('DEBUG signIn returned user: $user');
+    print('DEBUG Firebase currentUser: ${FirebaseAuth.instance.currentUser}');
+
+    final effectiveUser = user ?? FirebaseAuth.instance.currentUser;
+
+    if (effectiveUser != null) {
+      // Navigate to Home and remove all previous routes, pass the User as argument
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        AppRoutes.home,
+        (route) => false,
+        arguments: effectiveUser,
+      );
+      print('DEBUG NAVIGATED to HOME with user: ${effectiveUser.uid}');
+    } else {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(e.message ?? "An error occurred during Google sign-in"),
-            backgroundColor: Colors.red,
-          ),
+          const SnackBar(content: Text('Sign-in succeeded but user is null. Please try again.')),
         );
       }
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
     }
+  } on FirebaseAuthException catch (e) {
+    if (!mounted) return;
+    String errorMessage;
+    switch (e.code) {
+      case 'invalid-credential':
+        errorMessage = l10n.errorInvalidCredential;
+        break;
+      case 'invalid-email':
+        errorMessage = l10n.errorInvalidEmail;
+        break;
+      case 'user-disabled':
+        errorMessage = l10n.errorUserDisabled;
+        break;
+      case 'user-not-found':
+        errorMessage = l10n.errorInvalidEmail;
+        break;
+      case 'wrong-password':
+        errorMessage = l10n.errorInvalidCredential;
+        break;
+      default:
+        errorMessage = l10n.errorUnexpected;
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(errorMessage), backgroundColor: Colors.red),
+    );
+  } catch (e) {
+    if (!mounted) return;
+    print('DEBUG signIn error: $e');
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(l10n.errorNetwork), backgroundColor: Colors.red),
+    );
+  } finally {
+    if (mounted) setState(() => _isLoading = false);
   }
+}
+
+
+
+  Future<void> _signInWithGoogle() async {
+  if (mounted) setState(() => _isLoading = true);
+  try {
+    final authService = Provider.of<AuthService>(context, listen: false);
+    final User? user = await authService.signInWithGoogle();
+
+    // debug
+    print('DEBUG signInWithGoogle returned user: $user');
+    print('DEBUG Firebase currentUser: ${FirebaseAuth.instance.currentUser}');
+
+    if (mounted && user != null) {
+      // Navigate to home and remove all previous routes, pass the user
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        AppRoutes.home,
+        (route) => false,
+        arguments: user,
+      );
+      print('DEBUG NAVIGATED to HOME with google user: ${user.uid}');
+    } else {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Google sign-in cancelled or failed')),
+        );
+      }
+    }
+  } catch (e, st) {
+    print('ERROR _signInWithGoogle: $e');
+    print(st);
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Google sign-in failed: $e')),
+      );
+    }
+  } finally {
+    if (mounted) setState(() => _isLoading = false);
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +183,26 @@ class _SignInScreenState extends State<SignInScreen> {
                 children: [
                   RememberMeSwitch(label: l10n.rememberMe),
                   GestureDetector(
-                    onTap: () => Navigator.pushNamed(context, AppRoutes.resetPassword),
+                    onTap: () {
+  final email = _emailController.text.trim();
+
+  if (email.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Please enter your email first.'),
+        backgroundColor: Colors.orange,
+      ),
+    );
+    return;
+  }
+
+  Navigator.pushNamed(
+    context,
+    AppRoutes.resetPassword,
+    arguments: email,
+  );
+},
+
                     child: Text(
                       l10n.forgotPassword,
                       style: TextStyle(

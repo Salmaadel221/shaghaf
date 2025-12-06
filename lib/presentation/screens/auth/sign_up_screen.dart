@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shagf/core/app_routes.dart';
 import 'package:shagf/data/services/auth_service.dart';
 import 'package:shagf/l10n/app_localizations.dart';
 import 'package:shagf/presentation/widgets/custom_button.dart';
@@ -28,75 +29,131 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future<void> _signUp() async {
-    final l10n = AppLocalizations.of(context)!;
+  final l10n = AppLocalizations.of(context)!;
 
-    if (_fullNameController.text.trim().isEmpty ||
-        _emailController.text.trim().isEmpty ||
-        _passwordController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(l10n.errorEmptyFields),
-          backgroundColor: Colors.orange,
-        ),
-      );
-      return;
+  if (_fullNameController.text.trim().isEmpty ||
+      _emailController.text.trim().isEmpty ||
+      _passwordController.text.trim().isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(l10n.errorEmptyFields),
+        backgroundColor: Colors.orange,
+      ),
+    );
+    return;
+  }
+
+  if (mounted) setState(() => _isLoading = true);
+
+  final email = _emailController.text.trim();
+  final password = _passwordController.text.trim();
+
+  try {
+    final authService = Provider.of<AuthService>(context, listen: false);
+    final user = await authService.signUp(
+      email: email,
+      password: password,
+      fullName: _fullNameController.text.trim(),
+    );
+
+    print('DEBUG signUp returned user: $user');
+    print('DEBUG Firebase currentUser after signUp: ${FirebaseAuth.instance.currentUser}');
+
+    // If Firebase didn't sign-in automatically, try sign-in now
+    if (FirebaseAuth.instance.currentUser == null) {
+      print('DEBUG: currentUser null after signUp — attempting signIn automatically');
+      await authService.signIn(email: email, password: password);
+      print('DEBUG Firebase currentUser after auto signIn: ${FirebaseAuth.instance.currentUser}');
     }
 
-    if (mounted) setState(() => _isLoading = true);
+    final effectiveUser = FirebaseAuth.instance.currentUser;
 
-    try {
-      final authService = Provider.of<AuthService>(context, listen: false);
-      await authService.signUp(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-        fullName: _fullNameController.text.trim(),
-      );
-
-      // ✅ No manual navigation here, AuthWrapper listens to authStateChanges
+    if (effectiveUser != null) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Account created successfully!')),
         );
+        // Navigate to Home (clean stack) and pass user as argument
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          AppRoutes.home,
+          (route) => false,
+          arguments: effectiveUser,
+        );
+        print('DEBUG NAVIGATED to HOME after signUp with user: ${effectiveUser.uid}');
       }
-    } on FirebaseAuthException catch (e) {
-      if (!mounted) return;
+    } else {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Account created but sign-in failed. Please sign in manually.')),
+        );
+      }
+    }
+  } on FirebaseAuthException catch (e) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(e.message ?? l10n.errorUnexpected),
+        backgroundColor: Colors.red,
+      ),
+    );
+  } catch (e) {
+    print('DEBUG signUp error: $e');
+    if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(e.message ?? l10n.errorUnexpected),
+          content: Text(l10n.errorUnexpected),
           backgroundColor: Colors.red,
         ),
       );
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
     }
+  } finally {
+    if (mounted) setState(() => _isLoading = false);
   }
+}
 
-  Future<void> _signUpWithGoogle() async {
-    if (mounted) setState(() => _isLoading = true);
 
-    try {
-      final authService = Provider.of<AuthService>(context, listen: false);
-      await authService.signInWithGoogle();
 
-      // ✅ No manual navigation, AuthWrapper handles it
+Future<void> _signUpWithGoogle() async {
+  if (mounted) setState(() => _isLoading = true);
+  try {
+    final authService = Provider.of<AuthService>(context, listen: false);
+    final User? user = await authService.signInWithGoogle();
+
+    print('DEBUG signUpWithGoogle returned user: $user');
+    print('DEBUG Firebase currentUser: ${FirebaseAuth.instance.currentUser}');
+
+    if (mounted && user != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Google login successful!')),
+      );
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        AppRoutes.home,
+        (route) => false,
+        arguments: user,
+      );
+      print('DEBUG NAVIGATED to HOME (google sign-up) with user: ${user.uid}');
+    } else {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Google login successful!')),
+          const SnackBar(content: Text('Google sign-in cancelled or failed')),
         );
       }
-    } on FirebaseAuthException catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(e.message ?? "An error occurred"),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    } finally {
-      if (mounted) setState(() => _isLoading = false);
     }
+  } catch (e, st) {
+    print('ERROR _signUpWithGoogle: $e');
+    print(st);
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Google sign-in failed: $e')),
+      );
+    }
+  } finally {
+    if (mounted) setState(() => _isLoading = false);
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -163,8 +220,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         const Expanded(child: Divider()),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Text(l10n.or,
-              style: TextStyle(color: Theme.of(context).hintColor)),
+          child: Text(l10n.or, style: TextStyle(color: Theme.of(context).hintColor)),
         ),
         const Expanded(child: Divider()),
       ],
@@ -191,8 +247,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(l10n.alreadyHaveAnAccount,
-            style: Theme.of(context).textTheme.bodyMedium),
+        Text(l10n.alreadyHaveAnAccount, style: Theme.of(context).textTheme.bodyMedium),
         GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Text(

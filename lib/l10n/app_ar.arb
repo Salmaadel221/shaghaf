@@ -1,58 +1,84 @@
 {
-  "@@locale": "ar",
-  "shaghaf": "شغف",
-  "signIn": "تسجيل الدخول",
-  "signOut": "تسجيل الخروج",
-"toggleTheme": "تغيير الثيم",
-  "signUp": "إنشاء حساب",
-  "confirm": "تأكيد",
-  "verify": "تحقق",
-  "sendOTP": "إرسال الرمز",
-  "email": "البريد الإلكتروني",
-  "password": "كلمة المرور",
-  "yourPassword": "كلمة المرور",
-  "confirmPassword": "تأكيد كلمة المرور",
-  "fullName": "الاسم الكامل",
-  "phoneNumber": "رقم الهاتف",
-  "rememberMe": "تذكرني",
-  "forgotPassword": "هل نسيت كلمة المرور؟",
-  "loginWithGoogle": "الدخول باستخدام جوجل",
-  "dontHaveAnAccount": "ليس لديك حساب؟",
-  "alreadyHaveAnAccount": "لديك حساب بالفعل؟",
-  "or": "أو",
-  "resetPassword": "إعادة تعيين كلمة المرور",
-  "newPassword": "كلمة مرور جديدة",
-  "pleaseEnterNewPassword": "الرجاء إدخال كلمة مرور جديدة",
-  "enterVerificationCode": "أدخل رمز التحقق",
-  "weSentCodeTo": "لقد أرسلنا رمزاً مكوناً من 6 أرقام إلى\n{phoneNumber}",
-  "@weSentCodeTo": {
+    "@@locale": "ar",
+    "shaghaf": "شغف",
+    "signIn": "تسجيل الدخول",
+    "signUp": "إنشاء حساب",
+    "signOut": "تسجيل الخروج",
+    "toggleTheme": "تغيير المظهر",
+    "confirm": "تأكيد",
+    "verify": "تحقق",
+    "sendOTP": "إرسال الكود",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "yourPassword": "كلمة المرور الخاصة بك",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "fullName": "الاسم الكامل",
+    "phoneNumber": "رقم الهاتف",
+    "rememberMe": "تذكرني",
+    "forgotPassword": "هل نسيت كلمة المرور؟",
+    "loginWithGoogle": "تسجيل الدخول عبر جوجل",
+    "dontHaveAnAccount": "ليس لديك حساب؟",
+    "alreadyHaveAnAccount": "لديك حساب بالفعل؟",
+    "or": "أو",
+    "resetPassword": "إعادة تعيين كلمة المرور",
+    "newPassword": "كلمة مرور جديدة",
+    "pleaseEnterNewPassword": "يرجى إدخال كلمة مرور جديدة",
+    "enterVerificationCode": "أدخل رمز التحقق",
+    "weSentCodeTo": "لقد أرسلنا رمزًا مكوّنًا من 6 أرقام إلى\n{phoneNumber}",
+    "@weSentCodeTo": {
       "placeholders": {
-          "phoneNumber": {
-              "type": "String"
-          }
+        "phoneNumber": {
+          "type": "String"
+        }
       }
-  },
-  "resendCodeIn": "إعادة إرسال الرمز خلال 0:{seconds}",
-  "@resendCodeIn": {
+    },
+    "resendCodeIn": "إعادة إرسال الكود خلال 0:{seconds}",
+    "@resendCodeIn": {
       "placeholders": {
-          "seconds": {
-              "type": "String"
-          }
+        "seconds": {
+          "type": "String"
+        }
       }
-  },
-  "resendCode": "إعادة إرسال الرمز",
-  "verifyAndProceed": "تحقق واستمر",
-  "home": "الرئيسية",
-  "toggleLanguage": "تغيير اللغة",
-  "errorInvalidCredential": "البريد الإلكتروني أو كلمة المرور غير صحيحة. الرجاء المحاولة مرة أخرى.",
-  "errorInvalidEmail": "صيغة البريد الإلكتروني غير صالحة.",
-  "errorUserDisabled": "تم تعطيل حساب المستخدم هذا.",
-  "errorUnexpected": "حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى لاحقاً.",
-  "errorNetwork": "حدث خطأ. الرجاء التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.",
-  "errorEmptyFields": "الرجاء ملء جميع الحقول المطلوبة.",
-  "errorPasswordsDoNotMatch": "كلمتا المرور غير متطابقتين.",
-  "errorInvalidPhoneNumber": "الرجاء إدخال رقم هاتف صحيح.",
-  "errorInvalidOTP": "رمز التحقق غير صالح أو انتهت صلاحيته.",
-  "successOTPSent": "تم إرسال الرمز بنجاح!",
-  "successPasswordUpdate": "تم تحديث كلمة المرور بنجاح! الرجاء تسجيل الدخول مرة أخرى."
-}
+    },
+    "resendCode": "إعادة إرسال الكود",
+    "verifyAndProceed": "تحقق واستمر",
+    "home": "الرئيسية",
+    "toggleLanguage": "تغيير اللغة",
+    "errorInvalidCredential": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
+    "errorInvalidEmail": "صيغة البريد الإلكتروني غير صحيحة.",
+    "errorUserDisabled": "هذا الحساب تم تعطيله.",
+    "errorUnexpected": "حدث خطأ غير متوقع. يرجى المحاولة لاحقاً.",
+    "errorNetwork": "حدث خطأ. تحقق من اتصال الإنترنت وحاول مرة أخرى.",
+    "errorEmptyFields": "يرجى ملء جميع الحقول المطلوبة.",
+    "errorPasswordsDoNotMatch": "كلمتا المرور غير متطابقتين.",
+    "errorInvalidPhoneNumber": "يرجى إدخال رقم هاتف صحيح.",
+    "errorInvalidOTP": "رمز التحقق غير صحيح أو منتهي.",
+    "successOTPSent": "تم إرسال رمز التحقق بنجاح!",
+    "successPasswordUpdate": "تم تحديث كلمة المرور بنجاح! يرجى تسجيل الدخول مجددًا.",
+    
+    "passwordResetEmailSent": "تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك.",
+    "@passwordResetEmailSent": {
+      "description": "رسالة تظهر عند إرسال رابط إعادة تعيين كلمة المرور بنجاح."
+    },
+  
+    "resetPasswordEmailIntro": "سيتم إرسال رابط إعادة التعيين إلى:",
+    "@resetPasswordEmailIntro": {
+      "description": "نص يظهر أعلى حقل البريد عند تمرير الإيميل من الشاشة السابقة."
+    },
+  
+    "resetPasswordEnterEmail": "أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور",
+    "@resetPasswordEnterEmail": {
+      "description": "تعليمات إدخال الإيميل عند عدم توفره مسبقاً."
+    },
+  
+    "sendResetLink": "إرسال الرابط",
+    "@sendResetLink": {
+      "description": "زر إرسال رابط إعادة التعيين."
+    },
+  
+    "backToSignIn": "العودة لتسجيل الدخول",
+    "@backToSignIn": {
+      "description": "زر العودة لشاشة تسجيل الدخول."
+    }
+  }
+  
