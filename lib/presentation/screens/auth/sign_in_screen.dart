@@ -163,7 +163,7 @@ class _SignInScreenState extends State<SignInScreen> {
               const SizedBox(height: 40),
               Image.asset('assets/logo_shagf.png', height: 150),
               const SizedBox(height: 40),
-              Text(l10n.signIn, style: textTheme.titleLarge),
+              Text(l10n.signIn, style: textTheme.bodyLarge),
               const SizedBox(height: 24),
               CustomTextField(
                 controller: _emailController,

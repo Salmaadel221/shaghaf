@@ -167,7 +167,7 @@ Future<void> _signUpWithGoogle() async {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(l10n.signUp, style: textTheme.titleLarge),
+            Text(l10n.signUp, style: textTheme.bodyLarge),
             const SizedBox(height: 32),
             CustomTextField(
               controller: _fullNameController,

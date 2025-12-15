@@ -1,12 +1,14 @@
 import java.util.Properties
 import java.io.FileInputStream
 
+// ---------- Keystore ----------
 val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("key.properties")
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 }
 
+// ---------- Plugins ----------
 plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
@@ -14,9 +16,9 @@ plugins {
     id("dev.flutter.flutter-gradle-plugin")
 }
 
-// --- هذا هو التعديل الرئيسي ---
+// ---------- Local Properties ----------
 val localProperties = Properties()
-val localPropertiesFile = project.rootProject.file("local.properties")
+val localPropertiesFile = rootProject.file("local.properties")
 if (localPropertiesFile.exists()) {
     localProperties.load(FileInputStream(localPropertiesFile))
 }
@@ -26,8 +28,10 @@ val flutterVersionName = localProperties.getProperty("flutter.versionName")
 
 android {
     namespace = "com.example.shagf"
-    compileSdk = 34
-    ndkVersion = "26.1.10909125"
+    compileSdk = 36
+
+    // ✅ REQUIRED BY FIREBASE & PLUGINS
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -47,8 +51,8 @@ android {
     defaultConfig {
         applicationId = "com.example.shagf"
         minSdk = flutter.minSdkVersion
-        targetSdk = 34
-        // --- وهنا نستخدم المتغيرات الجديدة ---
+        targetSdk = 36
+
         if (flutterVersionCode != null) {
             versionCode = flutterVersionCode.toInt()
         }
@@ -85,5 +89,5 @@ flutter {
 }
 
 dependencies {
-    // ...
+    // Flutter & Firebase dependencies are managed automatically
 }

@@ -10,6 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  http: ^1.6.0
   flutter_localizations:
     sdk: flutter
 
@@ -20,6 +21,13 @@ dependencies:
   google_sign_in: ^6.2.1
   intl: ^0.20.2
   cupertino_icons: ^1.0.8
+  flutter_svg: ^2.0.10+1
+  google_fonts: ^6.1.0
+  circle_nav_bar: ^2.2.0
+  image_picker: ^1.2.1
+  shared_preferences: ^2.2.2
+  flutter_scrolling_fab_animated: ^0.1.5
+  icons_plus: ^5.0.0
   flutter_native_splash: ^2.4.0
   flutter_gen: ^5.12.0
 

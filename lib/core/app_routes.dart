@@ -5,7 +5,7 @@ import 'package:shagf/presentation/screens/auth/reset_password_screen.dart';
 import 'package:shagf/presentation/screens/auth/sign_in_screen.dart';
 import 'package:shagf/presentation/screens/auth/sign_up_screen.dart';
 import 'package:shagf/presentation/screens/auth/verification_screen.dart';
-import 'package:shagf/presentation/screens/home_screen.dart';
+import 'package:shagf/presentation/screens/home/home.dart';
 
 class AppRoutes {
   static const String signIn = '/signIn';
